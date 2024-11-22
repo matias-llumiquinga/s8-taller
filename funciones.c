@@ -191,59 +191,61 @@ int validarEntero(int cantidadOpcs, int i, int opcEntero, int opcInstrucciones)
         scanf("%f", &numF);
         numE = (int)numF;
 
-        switch (opcEntero)
+        if (numE != numF)
         {
-        case 1:
+            continuar = 0;
+        }
+        else
         {
-            int opcs[cantidadOpcs];
-            if (numE != numF)
+            switch (opcEntero)
             {
-                continuar = 0;
+            case 1:
+            {
+                int opcs[cantidadOpcs];
+                for (int i = 0; i < cantidadOpcs; i++)
+                {
+                    opcs[i] = i + 1;
+
+                    if (numF == opcs[i])
+                    {
+                        continuar = 1;
+                        break;
+                    }
+                    else
+                    {
+                        continuar = 0;
+                    }
+                }
                 break;
             }
-            for (int i = 0; i < cantidadOpcs; i++)
-            {
-                opcs[i] = i + 1;
-
-                if (numF == opcs[i])
-                {
-                    continuar = 1;
-                    break;
-                }
-                else
+            case 2:
+                if (numE <= 0 || numE > 5)
                 {
                     continuar = 0;
                 }
-            }
-            break;
-        }
-        case 2:
-            if (numE != numF || numE <= 0 || numE > 5)
-            {
-                continuar = 0;
-            }
-            break;
-        case 3:
-            if (numE != numF || numE <= 0 || numE > 50)
-            {
-                continuar = 0;
-            }
-            break;
-        case 4:
-            if (numE != numF || numE <= 0 || numE > 1500)
-            {
-                continuar = 0;
-            }
-            break;
-        case 5:
-            if (numE != numF || numE <= 0 || numE > 30)
-            {
-                continuar = 0;
-            }
-            break;
+                break;
+            case 3:
+                if (numE <= 0 || numE > 50)
+                {
+                    continuar = 0;
+                }
+                break;
+            case 4:
+                if (numE <= 0 || numE > 1500)
+                {
+                    continuar = 0;
+                }
+                break;
+            case 5:
+                if (numE <= 0 || numE > 30)
+                {
+                    continuar = 0;
+                }
+                break;
 
-        default:
-            break;
+            default:
+                break;
+            }
         }
 
         if (continuar == 0 && opcEntero == 1)
@@ -411,8 +413,8 @@ void recomendarProduccion(float tiempoUnidad[NUM_PRODUCTOS], int recursosUnidad[
 {
     float valoresAcumTiempo[NUM_PRODUCTOS];
     int valoresAcumRecursos[NUM_PRODUCTOS], acumUnidadesTiempo[NUM_PRODUCTOS], acumUnidadesRecursos[NUM_PRODUCTOS], unidadesCumplidas[NUM_PRODUCTOS];
-    float inicialTiempoDisponible = tiempoDisponible, tiempoProceso=tiempoDisponible;
-    int inicialRecursosDisponibles = recursosDisponibles, recursosProceso=recursosDisponibles;
+    float inicialTiempoDisponible = tiempoDisponible, tiempoProceso = tiempoDisponible;
+    int inicialRecursosDisponibles = recursosDisponibles, recursosProceso = recursosDisponibles;
 
     for (int i = 0; i < NUM_PRODUCTOS; i++)
     {
@@ -442,8 +444,6 @@ void recomendarProduccion(float tiempoUnidad[NUM_PRODUCTOS], int recursosUnidad[
             tiempoDisponible = tiempoDisponible - valoresAcumTiempo[i];
         }
 
-
-
         acumUnidadesRecursos[i] = 0;
         while (acumUnidadesRecursos[i] < cantDemandada[i] && valoresAcumRecursos[i] <= recursosDisponibles)
         {
@@ -461,16 +461,14 @@ void recomendarProduccion(float tiempoUnidad[NUM_PRODUCTOS], int recursosUnidad[
             recursosDisponibles = recursosDisponibles - valoresAcumRecursos[i];
         }
 
-
-
         if (acumUnidadesRecursos[i] < acumUnidadesTiempo[i])
         {
             valoresAcumTiempo[i] = valoresAcumTiempo[i] - (tiempoUnidad[i] * (acumUnidadesTiempo[i] - acumUnidadesRecursos[i]));
             unidadesCumplidas[i] = acumUnidadesRecursos[i];
             acumUnidadesTiempo[i] = unidadesCumplidas[i];
-            tiempoDisponible = tiempoProceso - valoresAcumTiempo[i];  
-            tiempoProceso=tiempoDisponible;
-            recursosProceso=recursosDisponibles;
+            tiempoDisponible = tiempoProceso - valoresAcumTiempo[i];
+            tiempoProceso = tiempoDisponible;
+            recursosProceso = recursosDisponibles;
         }
         else if (acumUnidadesRecursos[i] > acumUnidadesTiempo[i])
         {
@@ -478,14 +476,14 @@ void recomendarProduccion(float tiempoUnidad[NUM_PRODUCTOS], int recursosUnidad[
             unidadesCumplidas[i] = acumUnidadesTiempo[i];
             acumUnidadesRecursos[i] = unidadesCumplidas[i];
             recursosDisponibles = recursosProceso - valoresAcumRecursos[i];
-            recursosProceso=recursosDisponibles;
-            tiempoProceso=tiempoDisponible;
+            recursosProceso = recursosDisponibles;
+            tiempoProceso = tiempoDisponible;
         }
         else
         {
             unidadesCumplidas[i] = acumUnidadesRecursos[i];
-            tiempoProceso=tiempoDisponible;
-            recursosProceso=recursosDisponibles;
+            tiempoProceso = tiempoDisponible;
+            recursosProceso = recursosDisponibles;
         }
     }
 
