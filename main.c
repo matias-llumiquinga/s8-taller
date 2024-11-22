@@ -6,10 +6,10 @@
 int main(int argc, char *argv[])
 {
     char nombresProductos[NUM_PRODUCTOS][NUM_CARACTERES_NOMBRES];
-    int cantProductos = 0, continuar = 0, eliminados = 0, recursosDisponibles = 0;
-    float tiempoPUnidad[NUM_PRODUCTOS];
-    int recursosPUnidad[NUM_PRODUCTOS], cantPDemandada[NUM_PRODUCTOS];
-    float tiempoDisponible = 0;
+    int cantProductos = 0, continuar = 0, eliminados = 0;
+    float tiempoPUnidad[NUM_PRODUCTOS], recursosPUnidad[NUM_PRODUCTOS];
+    int cantPDemandada[NUM_PRODUCTOS];
+    float tiempoDisponible = 0, recursosDisponibles = 0;
 
     for (int i = 0; i < NUM_PRODUCTOS; i++)
     {
@@ -17,11 +17,15 @@ int main(int argc, char *argv[])
         recursosPUnidad[i] = 0;
         strcpy(nombresProductos[i], "");
     }
+    imprimirLineas();
+    printf("**BIEVENIDOS A JEWELTECH**\n");
+    printf("Somos una joyeria tecnologica basica. Nuestros productos van desde anillos, pendientes,");
+    printf(" hasta brazaletes electronicos\ncon un costo que no supera los $50 y las 50h de fabricacion\n");
 
     imprimirLineas();
     tiempoDisponible = validarFlotante(0, 2, 5);
     imprimirLineas();
-    recursosDisponibles = validarEntero(0, 0, 4, 4);
+    recursosDisponibles = validarFlotante(0, 2, 4);
     imprimirLineas();
     cantProductos = validarEntero(0, 0, 2, 0);
 

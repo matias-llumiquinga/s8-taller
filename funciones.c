@@ -14,19 +14,19 @@ void imprimirInstruccionesAvisos(int i, int opcInstrucciones)
         printf("Ingrese el nombre del producto %d:\t", i + 1);
         break;
     case 2:
-        printf("Ingrese el tiempo en horas para fabricar una unidad del producto %d (0<tiempo<=50):\t\t\t", i + 1);
+        printf("Ingrese el tiempo en horas para fabricar una unidad del producto %d (0<tiempo<=50):\t", i + 1);
         break;
     case 3:
-        printf("Ingrese la cantidad de recursos para fabricar una unidad del producto %d (Entero: 0<recursos<=50):\t", i + 1);
+        printf("Ingrese la cantidad de dinero para fabricar una unidad del producto %d (0<dinero<=50):\t", i + 1);
         break;
     case 4:
-        printf("Ingrese la cantidad TOTAL de recursos que dispone la fabrica (Entero: 0<recursos<=1500):\t");
+        printf("Ingrese la cantidad TOTAL de dinero que dispone la fabrica (0<dinero<=1500):\t");
         break;
     case 5:
-        printf("Ingrese el tiempo TOTAL en horas que dispone la fabrica (0<tiempo<=1500):\t\t\t");
+        printf("Ingrese el tiempo TOTAL en horas que dispone la fabrica (0<tiempo<=1500):\t");
         break;
     case 6:
-        printf("Ingrese la cantidad demandada del producto %d (Entero: 0<demanda<=30):\t\t\t\t\t", i + 1);
+        printf("Ingrese la cantidad demandada del producto %d (Entero: 0<demanda<=30):\t\t\t", i + 1);
         break;
     case 11:
         printf("Ingrese:\n1.Modificar Tiempo/Recursos Disponibles\n2.Ingresar Nuevo Producto\n3.Modificar Producto(s)\n4.Eliminar Producto(s)\n5.Mostrar Registro y Resultados\n6.Finalizar\n>>\t");
@@ -109,7 +109,7 @@ void validarNumCaracteres(char texto[NUM_CARACTERES_NOMBRES], int i, int opcInst
 
 void buscarReemplazarEliminar(char nombresProductos[NUM_PRODUCTOS][NUM_CARACTERES_NOMBRES], int cantidadProductos,
                               int reemplazarEliminar, int *eliminados,
-                              float tiempoUnidad[NUM_PRODUCTOS], int recursosUnidad[NUM_PRODUCTOS],
+                              float tiempoUnidad[NUM_PRODUCTOS], float recursosUnidad[NUM_PRODUCTOS],
                               int cantDemandada[NUM_PRODUCTOS])
 {
     int encontrado = 0, paraEliminar = 0;
@@ -224,18 +224,6 @@ int validarEntero(int cantidadOpcs, int i, int opcEntero, int opcInstrucciones)
                     continuar = 0;
                 }
                 break;
-            case 3:
-                if (numE <= 0 || numE > 50)
-                {
-                    continuar = 0;
-                }
-                break;
-            case 4:
-                if (numE <= 0 || numE > 1500)
-                {
-                    continuar = 0;
-                }
-                break;
             case 5:
                 if (numE <= 0 || numE > 30)
                 {
@@ -299,19 +287,19 @@ float validarFlotante(int i, int opcFlotante, int opcInstrucciones)
     return numF;
 }
 
-void tiempoRecursos(float *tiempoUnidad, int *recursosUnidad, char nombresProductos[NUM_CARACTERES_NOMBRES], int i)
+void tiempoRecursos(float *tiempoUnidad, float *recursosUnidad, char nombresProductos[NUM_CARACTERES_NOMBRES], int i)
 {
     float time;
     int resources;
 
     *tiempoUnidad = validarFlotante(i, 1, 2);
-    *recursosUnidad = validarEntero(0, i, 3, 3);
+    *recursosUnidad = validarFlotante(i, 1, 3);
 }
 
 void menu(char nombresProductos[NUM_PRODUCTOS][NUM_CARACTERES_NOMBRES], int cantOpcsMenu,
           int *cantProductos, int *continuar,
-          float tiempoUnidad[NUM_PRODUCTOS], int recursosUnidad[NUM_PRODUCTOS],
-          float *tiempoDisponible, int *recursosDisponibles,
+          float tiempoUnidad[NUM_PRODUCTOS], float recursosUnidad[NUM_PRODUCTOS],
+          float *tiempoDisponible, float *recursosDisponibles,
           int cantDemandada[NUM_PRODUCTOS])
 {
     int eliminados;
@@ -322,7 +310,7 @@ void menu(char nombresProductos[NUM_PRODUCTOS][NUM_CARACTERES_NOMBRES], int cant
     case 1:
         imprimirLineas();
         *tiempoDisponible = validarFlotante(0, 2, 5);
-        *recursosDisponibles = validarEntero(0, 0, 4, 4);
+        *recursosDisponibles = validarFlotante(0, 2, 4);
         break;
     case 2:
         imprimirLineas();
@@ -353,15 +341,15 @@ void menu(char nombresProductos[NUM_PRODUCTOS][NUM_CARACTERES_NOMBRES], int cant
 
         imprimirLineas();
 
-        printf("-Tiempo disponible de la empresa:\t%.2f\n", *tiempoDisponible);
-        printf("-Recursos disponibles de la empresa:\t%d\n\n", *recursosDisponibles);
+        printf("-TIEMPO DISPONIBLE DE LA EMPRESA:\t%.2fH\n", *tiempoDisponible);
+        printf("-RECURSOS DISPONIBLES DE LA EMPRESA:\t$%.2f\n\n", *recursosDisponibles);
         imprimirInstruccionesAvisos(0, 38);
         imprimirInstruccionesAvisos(*cantProductos, 37);
 
-        printf("%4s%-22s%-22s%-22s%-22s\n", "", "NOMBRE PRODUCTOS", "TIEMPO FABRICACION(H)", "RECURSOS FABRICACION", "CANT. DEMANDADA");
+        printf("%4s%-22s%-22s%-22s%-22s\n", "", "NOMBRE PRODUCTOS", "TIEMPO FABRICACION(H)", "DINERO FABRICACION($)", "CANT. DEMANDADA");
         for (int i = 0; i < *cantProductos; i++)
         {
-            printf("%-1d%-3s%-22s%-22.2f%-22d%-22d\n", i + 1, ".", nombresProductos[i], tiempoUnidad[i], recursosUnidad[i], cantDemandada[i]);
+            printf("%-1d%-3s%-22s%-22.2f%-22.2f%-22d\n", i + 1, ".", nombresProductos[i], tiempoUnidad[i], recursosUnidad[i], cantDemandada[i]);
         }
 
         tiempoRecursosRequeridos(tiempoUnidad, recursosUnidad, cantDemandada, *cantProductos, *tiempoDisponible, *recursosDisponibles);
@@ -372,12 +360,12 @@ void menu(char nombresProductos[NUM_PRODUCTOS][NUM_CARACTERES_NOMBRES], int cant
     }
 }
 
-void tiempoRecursosRequeridos(float tiempoUnidad[NUM_PRODUCTOS], int recursosUnidad[NUM_PRODUCTOS], int cantDemandada[NUM_PRODUCTOS],
+void tiempoRecursosRequeridos(float tiempoUnidad[NUM_PRODUCTOS], float recursosUnidad[NUM_PRODUCTOS], int cantDemandada[NUM_PRODUCTOS],
                               int cantProductos,
-                              float tiempoDisponible, int recursosDisponibles)
+                              float tiempoDisponible, float recursosDisponibles)
 {
     float tiempoRequerido = 0;
-    int recursosRequeridos = 0;
+    float recursosRequeridos = 0;
 
     for (int i = 0; i < cantProductos; i++)
     {
@@ -385,7 +373,7 @@ void tiempoRecursosRequeridos(float tiempoUnidad[NUM_PRODUCTOS], int recursosUni
         recursosRequeridos = recursosRequeridos + (recursosUnidad[i] * cantDemandada[i]);
     }
     printf("\n-SE REQUIERE DE %.2fH PARA CUMPLIR CON LA DEMANDA\n", tiempoRequerido);
-    printf("-SE REQUIERE DE %d RECURSOS/MATERIALES PARA CUMPLIR CON LA DEMANDA\n\n", recursosRequeridos);
+    printf("-SE REQUIERE DE $%.2f PARA CUMPLIR CON LA DEMANDA\n\n", recursosRequeridos);
     if (tiempoRequerido <= tiempoDisponible && recursosRequeridos <= recursosDisponibles)
     {
         printf("-LA EMPRESA SI CUMPLIRA CON LA DEMANDA\n", recursosRequeridos);
@@ -407,14 +395,14 @@ void imprimirLineas()
     printf("\n");
 }
 
-void recomendarProduccion(float tiempoUnidad[NUM_PRODUCTOS], int recursosUnidad[NUM_PRODUCTOS], int cantDemandada[NUM_PRODUCTOS],
+void recomendarProduccion(float tiempoUnidad[NUM_PRODUCTOS], float recursosUnidad[NUM_PRODUCTOS], int cantDemandada[NUM_PRODUCTOS],
                           int cantProductos,
-                          float tiempoDisponible, int recursosDisponibles)
+                          float tiempoDisponible, float recursosDisponibles)
 {
     float valoresAcumTiempo[NUM_PRODUCTOS];
     int valoresAcumRecursos[NUM_PRODUCTOS], acumUnidadesTiempo[NUM_PRODUCTOS], acumUnidadesRecursos[NUM_PRODUCTOS], unidadesCumplidas[NUM_PRODUCTOS];
     float inicialTiempoDisponible = tiempoDisponible, tiempoProceso = tiempoDisponible;
-    int inicialRecursosDisponibles = recursosDisponibles, recursosProceso = recursosDisponibles;
+    float inicialRecursosDisponibles = recursosDisponibles, recursosProceso = recursosDisponibles;
 
     for (int i = 0; i < NUM_PRODUCTOS; i++)
     {
@@ -504,5 +492,5 @@ void recomendarProduccion(float tiempoUnidad[NUM_PRODUCTOS], int recursosUnidad[
         printf("--%2d ELEMENTO(S) DEL PRODUCTO %d\n", unidadesCumplidas[i], i + 1);
     }
     printf("---TIEMPO INVERTIDO:\t%.2fH/%.2fH\n---TIEMPO SOBRANTE:\t%.2fH\n", inicialTiempoDisponible - tiempoDisponible, inicialTiempoDisponible, tiempoDisponible);
-    printf("---RECURSOS INVERTIDOS:\t%d/%d\n---RECURSOS SOBRANTES:\t%d\n", inicialRecursosDisponibles - recursosDisponibles, inicialRecursosDisponibles, recursosDisponibles);
+    printf("---RECURSOS INVERTIDOS:\t$%.2f/$%.2f\n---RECURSOS SOBRANTES:\t$%.2f\n", inicialRecursosDisponibles - recursosDisponibles, inicialRecursosDisponibles, recursosDisponibles);
 }
