@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     {
         tiempoPUnidad[i] = 0;
         recursosPUnidad[i] = 0;
+        cantPDemandada[i] = 0;
         strcpy(nombresProductos[i], "");
     }
     imprimirLineas();
@@ -22,7 +23,7 @@ int main(int argc, char *argv[])
     printf("Somos una joyeria tecnologica basica. Nuestros productos van desde anillos, pendientes,");
     printf(" hasta brazaletes electronicos\ncon un costo que no supera los $50 y las 50h de fabricacion\n");
 
-    imprimirLineas();
+    /*imprimirLineas();
     tiempoDisponible = validarFlotante(0, 2, 5);
     imprimirLineas();
     recursosDisponibles = validarFlotante(0, 2, 4);
@@ -35,12 +36,12 @@ int main(int argc, char *argv[])
         validarNumCaracteres(nombresProductos[i], i, 1);
         tiempoRecursos(&tiempoPUnidad[i], &recursosPUnidad[i], nombresProductos[i], i);
         cantPDemandada[i]=validarEntero(0, i, 5, 6);
-    }
+    }*/
 
     do
     {
-        menu(nombresProductos, 6, &cantProductos, &continuar, tiempoPUnidad, recursosPUnidad, &tiempoDisponible, &recursosDisponibles, cantPDemandada);
-    } while (continuar != 6);
+        menu(nombresProductos, 7, &cantProductos, &continuar, tiempoPUnidad, recursosPUnidad, &tiempoDisponible, &recursosDisponibles, cantPDemandada);
+    } while (continuar != 7);
 
     return 0;
 }

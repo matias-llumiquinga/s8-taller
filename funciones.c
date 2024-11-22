@@ -29,7 +29,7 @@ void imprimirInstruccionesAvisos(int i, int opcInstrucciones)
         printf("Ingrese la cantidad demandada del producto %d (Entero: 0<demanda<=30):\t\t\t", i + 1);
         break;
     case 11:
-        printf("Ingrese:\n1.Modificar Tiempo/Recursos Disponibles\n2.Ingresar Nuevo Producto\n3.Modificar Producto(s)\n4.Eliminar Producto(s)\n5.Mostrar Registro y Resultados\n6.Finalizar\n>>\t");
+        printf("Ingrese:\n1.Modificar Tiempo/Recursos Disponibles\n2.Ingresar Nuevo Producto\n3.Modificar la demanda\n4.Modificar Producto(s)\n5.Eliminar Producto(s)\n6.Mostrar Registro y Resultados\n7.Finalizar\n>>\t");
         break;
     case 12:
         printf("Ingrese el nombre del producto a editar:\t");
@@ -39,6 +39,9 @@ void imprimirInstruccionesAvisos(int i, int opcInstrucciones)
         break;
     case 14:
         printf("Ingrese el nombre del producto a eliminar:\t");
+        break;
+    case 15:
+        printf("Ingrese el nombre del producto a modificar su demanda:\t");
         break;
     case 31:
         printf("-HA EXCEDIDO EL MAXIMO DE %d CARACTERES-\n", NUM_CARACTERES_NOMBRES);
@@ -122,6 +125,10 @@ void buscarReemplazarEliminar(char nombresProductos[NUM_PRODUCTOS][NUM_CARACTERE
     {
         validarNumCaracteres(nombreProductoBuscado, 0, 14);
     }
+    else if (reemplazarEliminar == 2)
+    {
+        validarNumCaracteres(nombreProductoBuscado, 0, 15);
+    }
 
     *eliminados = 0;
 
@@ -141,7 +148,6 @@ void buscarReemplazarEliminar(char nombresProductos[NUM_PRODUCTOS][NUM_CARACTERE
             {
                 validarNumCaracteres(nombresProductos[i], i, 13);
                 tiempoRecursos(&tiempoUnidad[i], &recursosUnidad[i], nombresProductos[i], i);
-                cantDemandada[i] = validarEntero(0, i, 5, 6);
             }
         }
     }
@@ -169,6 +175,17 @@ void buscarReemplazarEliminar(char nombresProductos[NUM_PRODUCTOS][NUM_CARACTERE
         } while (*eliminados != paraEliminar);
         imprimirInstruccionesAvisos(*eliminados, 36);
     }
+    if (encontrado == 1 && reemplazarEliminar == 2)
+    {
+        for (int i = 0; i < cantidadProductos; i++)
+        {
+            if (strcmp(nombreProductoBuscado, nombresProductos[i]) == 0)
+            {
+                cantDemandada[i] = validarEntero(0, i, 5, 6);
+            }
+        }
+    }
+    
 
     if (encontrado == 0)
     {
@@ -324,20 +341,23 @@ void menu(char nombresProductos[NUM_PRODUCTOS][NUM_CARACTERES_NOMBRES], int cant
         {
             validarNumCaracteres(nombresProductos[*cantProductos], *cantProductos, 1);
             tiempoRecursos(&tiempoUnidad[*cantProductos], &recursosUnidad[*cantProductos], nombresProductos[*cantProductos], *cantProductos);
-            cantDemandada[*cantProductos] = validarEntero(0, *cantProductos, 5, 6);
             *cantProductos = *cantProductos + 1;
         }
         break;
     case 3:
         imprimirLineas();
-        buscarReemplazarEliminar(nombresProductos, *cantProductos, 0, &eliminados, tiempoUnidad, recursosUnidad, cantDemandada);
+        buscarReemplazarEliminar(nombresProductos, *cantProductos, 2, &eliminados, tiempoUnidad, recursosUnidad, cantDemandada);
         break;
     case 4:
+        imprimirLineas();
+        buscarReemplazarEliminar(nombresProductos, *cantProductos, 0, &eliminados, tiempoUnidad, recursosUnidad, cantDemandada);
+        break;
+    case 5:
         imprimirLineas();
         buscarReemplazarEliminar(nombresProductos, *cantProductos, 1, &eliminados, tiempoUnidad, recursosUnidad, cantDemandada);
         *cantProductos = *cantProductos - eliminados;
         break;
-    case 5:
+    case 6:
 
         imprimirLineas();
 
