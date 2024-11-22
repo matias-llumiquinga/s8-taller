@@ -489,7 +489,7 @@ void recomendarProduccion(float tiempoUnidad[NUM_PRODUCTOS], int recursosUnidad[
         }
     }
 
-    for (int i = 0; i < cantProductos; i++)
+    /*for (int i = 0; i < cantProductos; i++)
     {
         if (acumUnidadesRecursos[i] <= acumUnidadesTiempo[i])
         {
@@ -499,12 +499,12 @@ void recomendarProduccion(float tiempoUnidad[NUM_PRODUCTOS], int recursosUnidad[
         {
             unidadesCumplidas[i] = acumUnidadesTiempo[i];
         }
-    }
+    }*/
 
     for (int i = 0; i < cantProductos; i++)
     {
         printf("--%2d ELEMENTO(S) DEL PRODUCTO %d\n", unidadesCumplidas[i], i + 1);
     }
-    printf("---TIEMPO INVERTIDO:\t%.2fH/%.2fH\tTIEMPO SOBRANTE:\t%.2fH\n", inicialTiempoDisponible - tiempoDisponible, inicialTiempoDisponible, tiempoDisponible);
-    printf("---RECURSOS INVERTIDOS:\t%d/%d\t\tRECURSOS SOBRANTES:\t%d\n", inicialRecursosDisponibles - recursosDisponibles, inicialRecursosDisponibles, recursosDisponibles);
+    printf("---TIEMPO INVERTIDO:\t%.2fH/%.2fH\n---TIEMPO SOBRANTE:\t%.2fH\n", inicialTiempoDisponible - tiempoDisponible, inicialTiempoDisponible, tiempoDisponible);
+    printf("---RECURSOS INVERTIDOS:\t%d/%d\n---RECURSOS SOBRANTES:\t%d\n", inicialRecursosDisponibles - recursosDisponibles, inicialRecursosDisponibles, recursosDisponibles);
 }
